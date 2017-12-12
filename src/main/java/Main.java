@@ -75,13 +75,11 @@ public class Main {
                         bottomMost = topNode.get(i).get(j).Y;
                     }
                 }
-                System.out.println("leftMost " + leftMost + " rightMost " + rightMost + " topMost " + topMost + " bottomMost " + bottomMost);
                 for (int markerHorizontal = leftMost ;markerHorizontal > rightMost ; markerHorizontal--){
                     output.setRGB(markerHorizontal,bottomMost,myRed);
                     output.setRGB(markerHorizontal,topMost,myRed);
                 }
-                for (int markerVertical = topMost ;markerVertical > rightMost ; markerVertical--){
-                    System.out.println("leftMost" + leftMost + "rightMost" + rightMost);
+                for (int markerVertical = topMost ;markerVertical > bottomMost ; markerVertical--){
                     output.setRGB(leftMost,markerVertical,myRed);
                     output.setRGB(rightMost,markerVertical,myRed);
                 }
