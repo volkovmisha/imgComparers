@@ -23,19 +23,19 @@ class Functions {
             return null;
         }
     }
-    static BufferedImage BorderPainterVertical (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
+    static void BorderPainterVertical (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
         for (int marker = markerStart ;marker > markerEnd ; marker--){
             output.setRGB(marker,borderFirst,color);
             output.setRGB(marker,borderSecond,color);
         }
-        return output;
+
     }
-    static BufferedImage BorderPainterHorizoltal (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
+    static void BorderPainterHorizoltal (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
         for (int marker = markerStart ;marker > markerEnd ; marker--){
             output.setRGB(borderFirst,marker,color);
             output.setRGB(borderSecond,marker,color);
         }
-        return output;
+
     }
     static BufferedImage borderPainter(ArrayList<ArrayList<Pixel>> topNode,int myRed, BufferedImage output){
         for (int i = 0; i < topNode.size(); i++) {
@@ -44,6 +44,7 @@ class Functions {
             int bottomMost =  topNode.get(i).get(0).Y;
             int topMost =  topNode.get(i).get(0).Y;
             for (int j = 0; j < topNode.get(i).size(); j++) {
+                /* */
                 if(leftMost < topNode.get(i).get(j).X){
                     leftMost = topNode.get(i).get(j).X;
                 }

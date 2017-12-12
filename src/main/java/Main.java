@@ -27,13 +27,11 @@ public class Main {
 
         /*вызываем метод раскладывающий пиксели на группы в зависимости от положения*/
         ArrayList<ArrayList<Pixel>> topNode = Functions.pointSepapator(differences);
-
-        BufferedImage output = images.imageB;
         Color red = new Color(255, 0, 8);
         int myRed = red.getRGB();
 
         /* рисуем границы*/
-        Functions.borderPainter(topNode, myRed, output);
+        BufferedImage output = Functions.borderPainter(topNode, myRed, images.imageB);
 
         // создаем экран
         Icon icon = new ImageIcon(output);
