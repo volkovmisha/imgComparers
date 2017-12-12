@@ -39,16 +39,53 @@ public class Main {
             int rightMost = differences.get(0).X;
             int bottomMost = differences.get(0).Y;
             int topMost = differences.get(0).Y;*/
-
+            ArrayList<ArrayList<Pixel>> topNode = new ArrayList<ArrayList<Pixel>>();
+            ArrayList<Pixel> initNode = new ArrayList<Pixel>();
+            initNode.add(differences.get(0));
+            topNode.add(initNode);
             for(int i = 1; i < differences.size();i++) {
-                /* проверка что точки рядом*/
-                if(Math.abs(differences.get(i-1).X - differences.get(i).X) < 20 &&
-                        Math.abs(differences.get(i-1).Y - differences.get(i).Y) < 20
-                        ){
-                   // System.out.print("pew");
+                for (ArrayList<Pixel> pixelArrayList : topNode) {
+                    if (Math.abs(pixelArrayList.get(pixelArrayList.size() - 1).X - differences.get(i).X) < 20 &&
+                            Math.abs(pixelArrayList.get(pixelArrayList.size() - 1).Y - differences.get(i).Y) < 20
+                            ) {
+                        System.out.println("pew");
+
+                    }
+                    else {
+                        ArrayList<Pixel> newCoordinates = new ArrayList<Pixel>();
+                        newCoordinates.add(differences.get(i));
+                        topNode.add(newCoordinates);
+                        System.out.println("wobwob!");
+                    }
+                    System.out.println(differences.get(i).X + " " + differences.get(i).Y);
                 }
-                System.out.println(differences.get(i).X + " " + differences.get(i).Y);
             }
+
+                    /*for (Pixel p: pixelArrayList){
+                          /* проверка что точки рядом*/
+                    /*    if(Math.abs(p.X - differences.get(i).X) < 20 &&
+                                Math.abs(p.Y - differences.get(i).Y) < 20
+                                ){
+                            pixelArrayList.add(differences.get(i));
+                            System.out.println("pew");
+                            break;
+                        }else {
+                            topNode.add(new ArrayList<Pixel>());
+                            topNode.get(topNode.size()-1).add(differences.get(i));
+
+                        }
+                    }*/
+
+             /*   System.out.println("------------");
+                for (ArrayList<Pixel> pixelArrayList: topNode) {
+                    for (Pixel p: pixelArrayList) {
+                        System.out.println(p.X + p.Y);
+                    }
+
+                    }*/
+
+
+
               /*  if(leftMost < differences.get(i).X){
                     leftMost = differences.get(i).X;
                 }
