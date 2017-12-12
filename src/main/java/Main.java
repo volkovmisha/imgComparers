@@ -28,7 +28,7 @@ public class Main {
         Color red = new Color(255, 0, 8);
         int myRed = red.getRGB();
 
-        /* рисуем границы*/
+        /* рисуем границы   */
         BufferedImage output = Functions.borderPainter(topNode, myRed, images.imageB);
 
         // создаем экран
