@@ -4,14 +4,12 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Main {
-
     private static class FrameShower implements Runnable {
         final Frame frame;
 
-        public FrameShower(Frame frame) {
+        FrameShower(Frame frame) {
             this.frame = frame;
         }
-
         public void run() {
             frame.show();
         }
@@ -44,7 +42,7 @@ public class Main {
         Runnable runner = new FrameShower(frame);
         EventQueue.invokeLater(runner);
     }
-    }
+}
 
 
 

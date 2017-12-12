@@ -10,6 +10,7 @@ class Functions {
                 for (int j = heightA - 1; j > 0; j--) {
                     int pA = images.imageA.getRGB(i, j);
                     int pB = images.imageB.getRGB(i, j);
+                    /*проверяем на скольк оотличаются цвета, допустимый люфт не более 10%*/
                     if ((Math.abs(pA >> 24 & 0xff) - (pB >> 24 & 0xff)) + (Math.abs(pA >> 16 & 0xff) - (pB >> 16 & 0xff)) +
                             (Math.abs(pA >> 8 & 0xff) - (pB >> 8 & 0xff)) + (Math.abs(pA & 0xff) - (pB & 0xff)) > 102) {
                         differences.add(new Pixel(i, j));
@@ -23,14 +24,13 @@ class Functions {
             return null;
         }
     }
-    static void BorderPainterVertical (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
+    private static void BorderPainterVertical (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
         for (int marker = markerStart ;marker > markerEnd ; marker--){
             output.setRGB(marker,borderFirst,color);
             output.setRGB(marker,borderSecond,color);
         }
 
-    }
-    static void BorderPainterHorizoltal (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
+    }private static void BorderPainterHorizoltal (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
         for (int marker = markerStart ;marker > markerEnd ; marker--){
             output.setRGB(borderFirst,marker,color);
             output.setRGB(borderSecond,marker,color);
