@@ -17,109 +17,75 @@ public class Main {
     }
     public static void main(String[] args) {
         ImagesInit images = new ImagesInit();
-
     /*проверяем размер и создаем переменные для хранения координат.*/
         int widthA = images.imageA.getWidth();
         int heightA = images.imageA.getHeight();
         ArrayList<Pixel> differences = new ArrayList<Pixel>();
         if (widthA == images.imageB.getWidth() && heightA == images.imageB.getHeight()){
             System.out.println("size not different, go deeper");
-            for (int i = widthA - 1; i > 0; i--){
-                for(int j = heightA - 1; j > 0; j--){
-                    int pA = images.imageA.getRGB(i,j);
-                    int pB = images.imageB.getRGB(i,j);
-                    if((Math.abs(pA >> 24 & 0xff) - (pB >> 24 & 0xff)) + (Math.abs (pA >> 16 & 0xff) - (pB >> 16 & 0xff)) +
-                            (Math.abs (pA >> 8 & 0xff) - (pB >> 8 & 0xff)) + (Math.abs (pA & 0xff) - (pB & 0xff)) > 102){
-                        differences.add(new Pixel(i,j));
+            for (int i = widthA - 1; i > 0; i--) {
+                for (int j = heightA - 1; j > 0; j--) {
+                    int pA = images.imageA.getRGB(i, j);
+                    int pB = images.imageB.getRGB(i, j);
+                    if ((Math.abs(pA >> 24 & 0xff) - (pB >> 24 & 0xff)) + (Math.abs(pA >> 16 & 0xff) - (pB >> 16 & 0xff)) +
+                            (Math.abs(pA >> 8 & 0xff) - (pB >> 8 & 0xff)) + (Math.abs(pA & 0xff) - (pB & 0xff)) > 102) {
+                        differences.add(new Pixel(i, j));
                     }
                 }
             }
-
-          /*  int leftMost = differences.get(0).X;
-            int rightMost = differences.get(0).X;
-            int bottomMost = differences.get(0).Y;
-            int topMost = differences.get(0).Y;*/
             ArrayList<ArrayList<Pixel>> topNode = new ArrayList<ArrayList<Pixel>>();
             ArrayList<Pixel> initNode = new ArrayList<Pixel>();
             initNode.add(differences.get(0));
             topNode.add(initNode);
             for(int i = 1; i < differences.size();i++) {
-                for (ArrayList<Pixel> pixelArrayList : topNode) {
-                    if (Math.abs(pixelArrayList.get(pixelArrayList.size() - 1).X - differences.get(i).X) < 20 &&
-                            Math.abs(pixelArrayList.get(pixelArrayList.size() - 1).Y - differences.get(i).Y) < 20
-                            ) {
-                        System.out.println("pew");
-
-                    }
-                    else {
-                        ArrayList<Pixel> newCoordinates = new ArrayList<Pixel>();
-                        newCoordinates.add(differences.get(i));
-                        topNode.add(newCoordinates);
-                        System.out.println("wobwob!");
-                    }
-                    System.out.println(differences.get(i).X + " " + differences.get(i).Y);
-                }
-            }
-
-                    /*for (Pixel p: pixelArrayList){
-                          /* проверка что точки рядом*/
-                    /*    if(Math.abs(p.X - differences.get(i).X) < 20 &&
-                                Math.abs(p.Y - differences.get(i).Y) < 20
-                                ){
-                            pixelArrayList.add(differences.get(i));
-                            System.out.println("pew");
+                for (int j = 0; j < topNode.size(); j++ ) {
+                    for (int k = 0; k < topNode.get(j).size(); k++) {
+                        if(Math.abs(topNode.get(j).get(k).X - differences.get(i).X) < 20 && Math.abs(topNode.get(j).get(k).Y - differences.get(i).Y) < 20){
+                            topNode.get(j).add(differences.get(i));
                             break;
-                        }else {
-                            topNode.add(new ArrayList<Pixel>());
-                            topNode.get(topNode.size()-1).add(differences.get(i));
-
                         }
-                    }*/
-
-             /*   System.out.println("------------");
-                for (ArrayList<Pixel> pixelArrayList: topNode) {
-                    for (Pixel p: pixelArrayList) {
-                        System.out.println(p.X + p.Y);
+                        else if(k == topNode.get(j).size() - 1 && j == topNode.size() - 1){
+                            ArrayList<Pixel> newCoordinates = new ArrayList<Pixel>();
+                            newCoordinates.add(differences.get(i));
+                            topNode.add(newCoordinates);
+                            break;
+                        }
                     }
-
-                    }*/
-
-
-
-              /*  if(leftMost < differences.get(i).X){
-                    leftMost = differences.get(i).X;
-                }
-                if(rightMost > differences.get(i).X){
-                    rightMost = differences.get(i).X;
-                }
-                if(topMost < differences.get(i).Y){
-                    topMost = differences.get(i).Y;
-                }
-                if(bottomMost > differences.get(i).Y){
-                    bottomMost = differences.get(i).Y;
                 }
             }
-            System.out.println("leftMost" + leftMost + " rightMost" + rightMost + "\n topMost" + topMost + " bottomMost" + bottomMost);*/
             BufferedImage output = images.imageB;
-
-
             Color red =  new Color(255, 0, 8);
             int myRed = red.getRGB();
-/*
-            leftMost-=50; rightMost+=50; topMost-=50; bottomMost+=50;
-            for (int horizontalRed = leftMost; horizontalRed < rightMost; horizontalRed++ ){
-                output.setRGB(horizontalRed,topMost,myRed);
-                output.setRGB(horizontalRed,bottomMost,myRed);
+            for (int i = 0; i < topNode.size(); i++) {
+                int leftMost = topNode.get(i).get(0).X;
+                int rightMost =  topNode.get(i).get(0).X;
+                int bottomMost =  topNode.get(i).get(0).Y;
+                int topMost =  topNode.get(i).get(0).Y;
+                for (int j = 0; j < topNode.get(i).size(); j++) {
+                    if(leftMost < topNode.get(i).get(j).X){
+                        leftMost = topNode.get(i).get(j).X;
+                    }
+                    if(rightMost > topNode.get(i).get(j).X){
+                        rightMost = topNode.get(i).get(j).X;
+                    }
+                    if(topMost < topNode.get(i).get(j).Y){
+                        topMost = topNode.get(i).get(j).Y;
+                    }
+                    if(bottomMost > topNode.get(i).get(j).Y){
+                        bottomMost = topNode.get(i).get(j).Y;
+                    }
+                }
+                System.out.println("leftMost " + leftMost + " rightMost " + rightMost + " topMost " + topMost + " bottomMost " + bottomMost);
+                for (int markerHorizontal = leftMost ;markerHorizontal > rightMost ; markerHorizontal--){
+                    output.setRGB(markerHorizontal,bottomMost,myRed);
+                    output.setRGB(markerHorizontal,topMost,myRed);
+                }
+                for (int markerVertical = topMost ;markerVertical > rightMost ; markerVertical--){
+                    System.out.println("leftMost" + leftMost + "rightMost" + rightMost);
+                    output.setRGB(leftMost,markerVertical,myRed);
+                    output.setRGB(rightMost,markerVertical,myRed);
+                }
             }
-            for (int verticalRed = bottomMost;verticalRed > topMost; verticalRed--){
-                output.setRGB(verticalRed,leftMost,myRed);
-                output.setRGB(verticalRed,rightMost,myRed);
-            } */
-            for(int i = 0; i < differences.size();i++) {
-                output.setRGB(differences.get(i).X,differences.get(i).Y,myRed);
-            }
-
-
             // Make screen
             Icon icon = new ImageIcon(output);
             JLabel label = new JLabel(icon);
@@ -130,16 +96,13 @@ public class Main {
             // Show
             Runnable runner = new FrameShower(frame);
             EventQueue.invokeLater(runner);
-
-
-
-
         }
         else {
             System.out.println("images have different sizes, bye");
         }
     }
 }
+
 
 
 
