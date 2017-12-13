@@ -1,3 +1,5 @@
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +9,8 @@ import java.io.IOException;
 
 public class ImagesInit extends JPanel {
 
-    BufferedImage imageA;
-    BufferedImage imageB;
+    public BufferedImage imageA;
+    public BufferedImage imageB;
 
     public ImagesInit() {
         try {

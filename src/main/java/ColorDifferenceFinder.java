@@ -1,8 +1,9 @@
-import java.awt.image.BufferedImage;
+
+
 import java.util.ArrayList;
 
-class Functions {
-    static ArrayList<Pixel> differenceFinder(ImagesInit images, int widthA, int heightA) {
+public class ColorDifferenceFinder {
+    public static ArrayList<Pixel> findColorDifference(ImagesInit images, int widthA, int heightA) {
         ArrayList<Pixel> differences = new ArrayList<Pixel>();
         if (widthA == images.imageB.getWidth() && heightA == images.imageB.getHeight()) {
             System.out.println("size not different, go deeper");
@@ -24,6 +25,4 @@ class Functions {
             return null;
         }
     }
-
-
 }

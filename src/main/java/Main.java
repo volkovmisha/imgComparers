@@ -1,3 +1,5 @@
+
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.*;
@@ -20,7 +22,7 @@ public class Main {
         int heightA = images.imageA.getHeight();
 
         /*проверяем размер и создаем переменные для хранения координат.*/
-        ArrayList<Pixel> differences = Functions.differenceFinder(images, widthA, heightA);
+        ArrayList<Pixel> differences = ColorDifferenceFinder.findColorDifference(images, widthA, heightA);
 
         /*вызываем метод раскладывающий пиксели на группы в зависимости от положения*/
         ArrayList<ArrayList<Pixel>> topNode = PointSeparator.separatePoints(differences);
