@@ -24,69 +24,31 @@ class Functions {
             return null;
         }
     }
-    private static void BorderPainterVertical (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
-        for (int marker = markerStart ;marker > markerEnd ; marker--){
-            output.setRGB(marker,borderFirst,color);
-            output.setRGB(marker,borderSecond,color);
-        }
 
-    }private static void BorderPainterHorizoltal (int markerStart, int markerEnd, int borderFirst, int borderSecond, int color, BufferedImage output){
-        for (int marker = markerStart ;marker > markerEnd ; marker--){
-            output.setRGB(borderFirst,marker,color);
-            output.setRGB(borderSecond,marker,color);
-        }
+    static ArrayList<ArrayList<Pixel>> pointSeparator(ArrayList<Pixel> mutalList){
 
-    }
-    static BufferedImage borderPainter(ArrayList<ArrayList<Pixel>> topNode,int myRed, BufferedImage output){
-        for (int i = 0; i < topNode.size(); i++) {
-            int leftMost = topNode.get(i).get(0).X;
-            int rightMost =  topNode.get(i).get(0).X;
-            int bottomMost =  topNode.get(i).get(0).Y;
-            int topMost =  topNode.get(i).get(0).Y;
-            for (int j = 0; j < topNode.get(i).size(); j++) {
-                /* поиск самых больших значений */
-                if(leftMost < topNode.get(i).get(j).X){
-                    leftMost = topNode.get(i).get(j).X;
-                }
-                if(rightMost > topNode.get(i).get(j).X){
-                    rightMost = topNode.get(i).get(j).X;
-                }
-                if(topMost < topNode.get(i).get(j).Y){
-                    topMost = topNode.get(i).get(j).Y;
-                }
-                if(bottomMost > topNode.get(i).get(j).Y){
-                    bottomMost = topNode.get(i).get(j).Y;
-                }
-            }
-            Functions.BorderPainterVertical(leftMost,rightMost,topMost,bottomMost,myRed,output);
-            Functions.BorderPainterHorizoltal(topMost,bottomMost,leftMost,rightMost,myRed,output);
-        }
-        return output;
-    }
-    static ArrayList<ArrayList<Pixel>> pointSeparator(ArrayList<Pixel> merged){
-
-        ArrayList<ArrayList<Pixel>> topNode = new ArrayList<ArrayList<Pixel>>();
+        ArrayList<ArrayList<Pixel>> dividedList = new ArrayList<ArrayList<Pixel>>();
         ArrayList<Pixel> initNode = new ArrayList<Pixel>();
-        initNode.add(merged.get(0));
-        topNode.add(initNode);
-        for(int mutualArray = 1; mutualArray < merged.size();mutualArray++) {
-            for (int divdedOuter = 0; divdedOuter < topNode.size(); divdedOuter++ ) {
-                for (int diviedInner = 0; diviedInner < topNode.get(divdedOuter).size(); diviedInner++) {
+        initNode.add(mutalList.get(0));
+        dividedList.add(initNode);
+        for(int mutualListPixelIndex = 1; mutualListPixelIndex < mutalList.size();mutualListPixelIndex++) {
+            for (int divdedOuterIndex = 0; divdedOuterIndex < dividedList.size(); divdedOuterIndex++ ) {
+                for (int diviedInnerIndex = 0; diviedInnerIndex < dividedList.get(divdedOuterIndex).size(); diviedInnerIndex++) {
                     /*смотрим как далеко точки находятся друг от друга*/
-                    if(Math.abs(topNode.get(divdedOuter).get(diviedInner).X - merged.get(mutualArray).X) < 20 && Math.abs(topNode.get(divdedOuter).get(diviedInner).Y - merged.get(mutualArray).Y) < 20){
-                        topNode.get(divdedOuter).add(merged.get(mutualArray));
+                    if(Math.abs(dividedList.get(divdedOuterIndex).get(diviedInnerIndex).X - mutalList.get(mutualListPixelIndex).X) < 20 && Math.abs(dividedList.get(divdedOuterIndex).get(diviedInnerIndex).Y - mutalList.get(mutualListPixelIndex).Y) < 20){
+                        dividedList.get(divdedOuterIndex).add(mutalList.get(mutualListPixelIndex));
                         break;
                     }
                     /* если нет точки рядом, и это последняя точка последнего массива создаем новый контейнер для точек*/
-                    else if(diviedInner == topNode.get(divdedOuter).size() - 1 && divdedOuter == topNode.size() - 1){
+                    else if(diviedInnerIndex == dividedList.get(divdedOuterIndex).size() - 1 && divdedOuterIndex == dividedList.size() - 1){
                         ArrayList<Pixel> newCoordinates = new ArrayList<Pixel>();
-                        newCoordinates.add(merged.get(mutualArray));
-                        topNode.add(newCoordinates);
+                        newCoordinates.add(mutalList.get(mutualListPixelIndex));
+                        dividedList.add(newCoordinates);
                         break;
                     }
                 }
             }
         }
-        return topNode;
+        return dividedList;
     }
 }

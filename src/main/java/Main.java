@@ -16,7 +16,6 @@ public class Main {
     }
     public static void main(String[] args) {
         ImagesInit images = new ImagesInit();
-
         int widthA = images.imageA.getWidth();
         int heightA = images.imageA.getHeight();
 
@@ -29,12 +28,12 @@ public class Main {
         int myRed = red.getRGB();
 
         /* рисуем границы   */
-        BufferedImage output = Functions.borderPainter(topNode, myRed, images.imageB);
+        BufferedImage output = BorderPainter.borderPainter(topNode, myRed, images.imageB);
 
         // создаем экран
         Icon icon = new ImageIcon(output);
         JLabel label = new JLabel(icon);
-        JFrame frame = new JFrame("Sharp Image");
+        JFrame frame = new JFrame("Selected image differences");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(label, BorderLayout.CENTER);
         frame.pack();
