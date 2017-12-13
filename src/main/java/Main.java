@@ -21,10 +21,10 @@ public class Main {
         int heightA = images.imageA.getHeight();
 
         /*проверяем размер и создаем переменные для хранения координат.*/
-        ArrayList<Pixel> differences = Functions.differnceFinder(images, widthA, heightA);
+        ArrayList<Pixel> differences = Functions.differenceFinder(images, widthA, heightA);
 
         /*вызываем метод раскладывающий пиксели на группы в зависимости от положения*/
-        ArrayList<ArrayList<Pixel>> topNode = Functions.pointSepapator(differences);
+        ArrayList<ArrayList<Pixel>> topNode = Functions.pointSeparator(differences);
         Color red = new Color(255, 0, 8);
         int myRed = red.getRGB();
 

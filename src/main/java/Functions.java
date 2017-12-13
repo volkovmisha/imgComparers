@@ -2,18 +2,18 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 class Functions {
-    static ArrayList<Pixel> differnceFinder(ImagesInit images, int widthA, int heightA) {
+    static ArrayList<Pixel> differenceFinder(ImagesInit images, int widthA, int heightA) {
         ArrayList<Pixel> differences = new ArrayList<Pixel>();
         if (widthA == images.imageB.getWidth() && heightA == images.imageB.getHeight()) {
             System.out.println("size not different, go deeper");
-            for (int i = widthA - 1; i > 0; i--) {
-                for (int j = heightA - 1; j > 0; j--) {
-                    int pA = images.imageA.getRGB(i, j);
-                    int pB = images.imageB.getRGB(i, j);
+            for (int width = widthA - 1; width > 0; width--) {
+                for (int height = heightA - 1; height > 0; height--) {
+                    int pixelA = images.imageA.getRGB(width, height);
+                    int pixelB = images.imageB.getRGB(width, height);
                     /*проверяем на скольк оотличаются цвета, допустимый люфт не более 10%*/
-                    if ((Math.abs(pA >> 24 & 0xff) - (pB >> 24 & 0xff)) + (Math.abs(pA >> 16 & 0xff) - (pB >> 16 & 0xff)) +
-                            (Math.abs(pA >> 8 & 0xff) - (pB >> 8 & 0xff)) + (Math.abs(pA & 0xff) - (pB & 0xff)) > 102) {
-                        differences.add(new Pixel(i, j));
+                    if ((Math.abs(pixelA >> 24 & 0xff) - (pixelB >> 24 & 0xff)) + (Math.abs(pixelA >> 16 & 0xff) - (pixelB >> 16 & 0xff)) +
+                            (Math.abs(pixelA >> 8 & 0xff) - (pixelB >> 8 & 0xff)) + (Math.abs(pixelA & 0xff) - (pixelB & 0xff)) > 102) {
+                        differences.add(new Pixel(width, height));
                     }
                 }
             }
@@ -44,7 +44,7 @@ class Functions {
             int bottomMost =  topNode.get(i).get(0).Y;
             int topMost =  topNode.get(i).get(0).Y;
             for (int j = 0; j < topNode.get(i).size(); j++) {
-                /* */
+                /* поиск самых больших значений */
                 if(leftMost < topNode.get(i).get(j).X){
                     leftMost = topNode.get(i).get(j).X;
                 }
@@ -63,22 +63,24 @@ class Functions {
         }
         return output;
     }
-    static ArrayList<ArrayList<Pixel>> pointSepapator(ArrayList<Pixel> merged){
+    static ArrayList<ArrayList<Pixel>> pointSeparator(ArrayList<Pixel> merged){
 
         ArrayList<ArrayList<Pixel>> topNode = new ArrayList<ArrayList<Pixel>>();
         ArrayList<Pixel> initNode = new ArrayList<Pixel>();
         initNode.add(merged.get(0));
         topNode.add(initNode);
-        for(int i = 1; i < merged.size();i++) {
-            for (int j = 0; j < topNode.size(); j++ ) {
-                for (int k = 0; k < topNode.get(j).size(); k++) {
-                    if(Math.abs(topNode.get(j).get(k).X - merged.get(i).X) < 20 && Math.abs(topNode.get(j).get(k).Y - merged.get(i).Y) < 20){
-                        topNode.get(j).add(merged.get(i));
+        for(int mutualArray = 1; mutualArray < merged.size();mutualArray++) {
+            for (int divdedOuter = 0; divdedOuter < topNode.size(); divdedOuter++ ) {
+                for (int diviedInner = 0; diviedInner < topNode.get(divdedOuter).size(); diviedInner++) {
+                    /*смотрим как далеко точки находятся друг от друга*/
+                    if(Math.abs(topNode.get(divdedOuter).get(diviedInner).X - merged.get(mutualArray).X) < 20 && Math.abs(topNode.get(divdedOuter).get(diviedInner).Y - merged.get(mutualArray).Y) < 20){
+                        topNode.get(divdedOuter).add(merged.get(mutualArray));
                         break;
                     }
-                    else if(k == topNode.get(j).size() - 1 && j == topNode.size() - 1){
+                    /* если нет точки рядом, и это последняя точка последнего массива создаем новый контейнер для точек*/
+                    else if(diviedInner == topNode.get(divdedOuter).size() - 1 && divdedOuter == topNode.size() - 1){
                         ArrayList<Pixel> newCoordinates = new ArrayList<Pixel>();
-                        newCoordinates.add(merged.get(i));
+                        newCoordinates.add(merged.get(mutualArray));
                         topNode.add(newCoordinates);
                         break;
                     }
