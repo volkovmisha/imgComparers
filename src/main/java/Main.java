@@ -23,12 +23,12 @@ public class Main {
         ArrayList<Pixel> differences = Functions.differenceFinder(images, widthA, heightA);
 
         /*вызываем метод раскладывающий пиксели на группы в зависимости от положения*/
-        ArrayList<ArrayList<Pixel>> topNode = Functions.pointSeparator(differences);
+        ArrayList<ArrayList<Pixel>> topNode = PointSeparator.separatePoints(differences);
         Color red = new Color(255, 0, 8);
         int myRed = red.getRGB();
 
         /* рисуем границы   */
-        BufferedImage output = BorderPainter.borderPainter(topNode, myRed, images.imageB);
+        BufferedImage output = BorderPainter.paintBorders(topNode, myRed, images.imageB);
 
         // создаем экран
         Icon icon = new ImageIcon(output);
